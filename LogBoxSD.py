@@ -1,5 +1,5 @@
 from Exceptions import MethodNotFound
-
+import preferences
 
 class LogBoxSD:
     states = {
@@ -21,8 +21,8 @@ class LogBoxSD:
 
     }
 
-    def __init__(self, conexion):
-        self.conexion = conexion
+    def __init__(self):
+        self.conexion = self.instantiateConnection()
         self.conexion.connect
         self.currentState = self.states["serviceMode"]
 
@@ -72,3 +72,8 @@ class LogBoxSD:
     def checkState(self, state):
         if self.currentState == self.states[state]:
             raise MethodNotFound('Method not found')
+
+    def instantiateConnection(self):
+        module = __import__(preferences.moduleName)
+        class_ = getattr(module, preferences.connectionClass)
+        return class_()
