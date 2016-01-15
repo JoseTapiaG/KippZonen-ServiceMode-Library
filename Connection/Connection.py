@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from enum import Enum
 
 class Connection:
     """
@@ -21,3 +21,10 @@ class Connection:
 
     def __str__(self):
         raise NotImplementedError("Should have implemented this")
+
+from Connection.TCPConnection import TCPConnection
+from Connection.TTYConnection import TTYConnection
+
+class ConnectionType(Enum):
+    TCP = TCPConnection
+    TTY = TTYConnection
