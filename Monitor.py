@@ -3,11 +3,13 @@ from LogBoxSD import LogBoxSD
 
 
 class Monitor:
+    # Class provides methods to query for data in the SDCard of LogBoxSD
     def __init__(self, connection):
         self.logBoxSD = LogBoxSD(connection)
 
+    # get_data: Datetime -> Array
+    # Return all registers for the date
     def get_data(self, date):
-
         self.logBoxSD.service_mode_state()
         self.logBoxSD.sd_mode()
         file_number = self.__get_file_number(date)

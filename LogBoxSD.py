@@ -2,6 +2,8 @@ from Exceptions import MethodNotFound
 
 
 class LogBoxSD:
+    # state of LogBoxSD
+    # e.g: When the LogBoxSD Receive a 's' in service mode enter in sd card setup
     states = {
 
         "serviceMode": {
@@ -21,6 +23,7 @@ class LogBoxSD:
 
     }
 
+    # Interface to communicate with LogBox SD. It allows use methods of LogBoxSD
     def __init__(self, connection):
         self.connection = connection
         self.connection.connect()
@@ -65,6 +68,7 @@ class LogBoxSD:
         self.currentState = self.states["sdCardSetup"]
         return response
 
+    # check if the command can be used in the current state of LogBoxSD
     def check_state(self, state):
         if self.currentState != self.states[state]:
             raise MethodNotFound()
