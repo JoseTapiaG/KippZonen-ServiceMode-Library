@@ -1,5 +1,4 @@
 from Exceptions import MethodNotFound
-import preferences
 
 class LogBoxSD:
     states = {
@@ -21,21 +20,21 @@ class LogBoxSD:
 
     }
 
-    def __init__(self):
-        self.conexion = self.instantiateConnection()
-        self.conexion.connect
+    def __init__(self, connection):
+        self.connection = connection
+        self.connection.connect()
         self.currentState = self.states["serviceMode"]
 
     def serviceModeState(self):
         self.checkState("serviceMode")
-        self.conexion.send('?')
-        return self.conexion.receive()
+        self.connection.send('?')
+        return self.connection.receive()
 
 
     def sdMode(self):
         self.checkState("serviceMode")
-        self.conexion.send('s')
-        response = self.conexion.receive
+        self.connection.send('s')
+        response = self.connection.receive()
         if "SD CARD" in response:
             self.currentState = self.states["sdCardSetup"]
         else:
@@ -45,35 +44,30 @@ class LogBoxSD:
 
     def sdCardState(self):
         self.checkState("sdCardSetup")
-        self.conexion.send('?')
-        return self.conexion.receive()
+        self.connection.send('?')
+        return self.connection.receive()
 
 
     def listFiles(self):
         self.checkState("sdCardSetup")
-        self.conexion.send('l')
-        return self.conexion.receive()
+        self.connection.send('l')
+        return self.connection.receive()
 
 
     def typeFile(self):
         self.checkState("sdCardSetup")
-        self.conexion.send('t')
-        response = self.conexion.receive()
+        self.connection.send('t')
+        response = self.connection.receive()
         if "Enter the file number" in response:
             self.currentState = self.states["typingFile"]
 
     def getFileData(self, fileNumber):
         self.checkState("typingFile")
-        self.conexion.send('t')
-        response = self.conexion.receive()
+        self.connection.send(str(fileNumber))
+        response = self.connection.receive()
         self.currentState = self.states["sdCardSetup"]
         return response
 
     def checkState(self, state):
-        if self.currentState == self.states[state]:
+        if self.currentState != self.states[state]:
             raise MethodNotFound('Method not found')
-
-    def instantiateConnection(self):
-        module = __import__(preferences.moduleName)
-        class_ = getattr(module, preferences.connectionClass)
-        return class_()

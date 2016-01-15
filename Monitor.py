@@ -1,10 +1,16 @@
 from Data import Data
 from LogBoxSD import LogBoxSD
-
+import MyRequest
 
 class Monitor:
-    def __init__(self):
-        self.logBoxSD = LogBoxSD()
+    def __init__(self, connection):
+        self.logBoxSD = LogBoxSD(connection)
+
+    #dateformat: YY-mm-dd
+    def sendDataToServer(self, date):
+        data = self.getData(date)
+        for register in data:
+            MyRequest.sendData(register)
 
     def getData(self, date):
 
