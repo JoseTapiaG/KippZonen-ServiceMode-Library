@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
+from Connection.TCPConnection import TCPConnection
+from Connection.TTYConnection import TTYConnection
+
 
 class Connection:
     """
@@ -7,6 +10,7 @@ class Connection:
     must be implemented by the definition of the specific
     connection mechanism
     """
+
     def __init__(self):
         pass
 
@@ -22,8 +26,6 @@ class Connection:
     def __str__(self):
         raise NotImplementedError("Should have implemented this")
 
-from Connection.TCPConnection import TCPConnection
-from Connection.TTYConnection import TTYConnection
 
 class ConnectionType(Enum):
     TCP = TCPConnection

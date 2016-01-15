@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Connection import Connection
+from Connection.Connection import Connection
 from Exceptions import TTYConnectionError
 import serial
 
@@ -30,10 +30,10 @@ class TTYConnection(Connection):
         self.conn.bytesize = serial.EIGHTBITS
         self.conn.parity = serial.PARITY_NONE
         self.conn.stopbits = serial.STOPBITS_ONE
-        self.conn.timeout = 0                       # Non-Block reading
-        self.conn.xonxoff = False                   # Disable Software Flow Control
-        self.conn.rtscts = False                    # Disable (RTS/CTS) flow Control
-        self.conn.dsrdtr = False                    # Disable (DSR/DTR) flow Control
+        self.conn.timeout = 0  # Non-Block reading
+        self.conn.xonxoff = False  # Disable Software Flow Control
+        self.conn.rtscts = False  # Disable (RTS/CTS) flow Control
+        self.conn.dsrdtr = False  # Disable (DSR/DTR) flow Control
         self.conn.writeTimeout = 2
 
     # receive: None -> String

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from Connection import Connection
+from Connection.Connection import Connection
 from Exceptions import TCPConnectionError
 import socket
 
