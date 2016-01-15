@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 
 class Fecha:
-    def __init__(self, dateStr, format="%d-%m-%Y"):
+    def __init__(self, dateStr, format="%Y-%m-%d %H:%M:%S"):
         self.date = datetime.strptime(dateStr, format)
 
     def addDay(self, days):
