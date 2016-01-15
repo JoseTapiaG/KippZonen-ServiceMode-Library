@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 
 """
-    Exceptions raised in TCPConnection class
+    Exceptions raised in Library
 """
 
 
-class TCPConnectionError(Exception):
-    def __init__(self):
-        print "Connection refused by host"
-
-"""
-    Exceptions raised in LogBoxSD class
-"""
-
-
+# Exceptions raised in LogBoxSD class
 class MethodNotFound(Exception):
     def __init__(self):
-        print "Method not found"
+        print "Error: Method not found"
+
+# Exceptions raised in TCPConnection class
+class TCPConnectionError(Exception):
+    def __init__(self):
+        print "Error: Connection refused by host"
+
+# Exceptions raised in TTYConnection class
+class TTYConnectionError(Exception):
+    def __init__(self, msg):
+        print "Error: ", msg
