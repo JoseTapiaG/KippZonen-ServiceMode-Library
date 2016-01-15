@@ -10,10 +10,12 @@ class MethodNotFound(Exception):
     def __init__(self):
         print("Error: Method not found")
 
+
 # Exceptions raised in TCPConnection class
 class TCPConnectionError(Exception):
     def __init__(self):
         print("Error: Connection refused by host")
+
 
 # Exceptions raised in TTYConnection class
 class TTYConnectionError(Exception):
