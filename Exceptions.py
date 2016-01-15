@@ -1,1 +1,2 @@
-class MethodNotFound : Exception
+class MethodNotFound(Exception):
+    pass
