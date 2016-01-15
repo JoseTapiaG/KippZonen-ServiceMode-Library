@@ -1,5 +1,6 @@
 from Exceptions import MethodNotFound
 
+
 class LogBoxSD:
     states = {
 
@@ -25,14 +26,13 @@ class LogBoxSD:
         self.connection.connect()
         self.currentState = self.states["serviceMode"]
 
-    def serviceModeState(self):
-        self.checkState("serviceMode")
+    def service_mode_state(self):
+        self.check_state("serviceMode")
         self.connection.send('?')
         return self.connection.receive()
 
-
-    def sdMode(self):
-        self.checkState("serviceMode")
+    def sd_mode(self):
+        self.check_state("serviceMode")
         self.connection.send('s')
         response = self.connection.receive()
         if "SD CARD" in response:
@@ -41,33 +41,30 @@ class LogBoxSD:
             return False
         return True
 
-
-    def sdCardState(self):
-        self.checkState("sdCardSetup")
+    def sd_card_state(self):
+        self.check_state("sdCardSetup")
         self.connection.send('?')
         return self.connection.receive()
 
-
-    def listFiles(self):
-        self.checkState("sdCardSetup")
+    def list_files(self):
+        self.check_state("sdCardSetup")
         self.connection.send('l')
         return self.connection.receive()
 
-
-    def typeFile(self):
-        self.checkState("sdCardSetup")
+    def type_file(self):
+        self.check_state("sdCardSetup")
         self.connection.send('t')
         response = self.connection.receive()
         if "Enter the file number" in response:
             self.currentState = self.states["typingFile"]
 
-    def getFileData(self, fileNumber):
-        self.checkState("typingFile")
-        self.connection.send(str(fileNumber))
+    def get_file_data(self, file_number):
+        self.check_state("typingFile")
+        self.connection.send(str(file_number))
         response = self.connection.receive()
         self.currentState = self.states["sdCardSetup"]
         return response
 
-    def checkState(self, state):
+    def check_state(self, state):
         if self.currentState != self.states[state]:
-            raise MethodNotFound('Method not found')
+            raise MethodNotFound()

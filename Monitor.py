@@ -1,46 +1,43 @@
 from Data import Data
 from LogBoxSD import LogBoxSD
-import MyRequest
+
 
 class Monitor:
     def __init__(self, connection):
         self.logBoxSD = LogBoxSD(connection)
 
-    #dateformat: YY-mm-dd
-    def sendDataToServer(self, date):
-        data = self.getData(date)
-        for register in data:
-            MyRequest.sendData(register)
+    def get_data(self, date):
 
-    def getData(self, date):
+        self.logBoxSD.service_mode_state()
+        self.logBoxSD.sd_mode()
+        file_number = self.__get_file_number(date)
+        return self.__parse_data(self.logBoxSD.get_file_data(file_number))
 
-        self.logBoxSD.serviceModeState()
-        self.logBoxSD.sdMode()
-        fileNumber = self.__getFileNumber(date)
-        return self.__parseData(self.logBoxSD.getFileData(fileNumber))
-
-    def __getFileNumber(self, date):
-        for fileName in self.logBoxSD.listFiles():
-            if date == self.__getDateOfFileName(fileName):
-                return self.__getFileNumberOfFileName(fileName)
+    def __get_file_number(self, date):
+        for file_name in self.logBoxSD.list_files():
+            if date == self.__get_date_of_file_name(file_name):
+                return self.__get_file_number_of_file_name(file_name)
         return -1
 
-    def __getDateOfFileName(self, str):
-        if "SD card size:" in str:
+    def __parse_data(self, registers):
+        parsed_registers = []
+        for register in registers:
+            parsed_registers.append(self.__parse_register(register))
+        return parsed_registers
+
+    @staticmethod
+    def __get_date_of_file_name(file_name):
+        if "SD card size:" in file_name:
             return -1
-        split = str.split(" ")
+        split = file_name.split(" ")
         return split[3]
 
-    def __getFileNumberOfFileName(self, str):
-        return int(str.split(" ")[0][4:-4])
+    @staticmethod
+    def __get_file_number_of_file_name(file_name):
+        return int(file_name.split(" ")[0][4:-4])
 
-    def __parseData(self, registers):
-        parsedRegisters = []
-        for register in registers:
-            parsedRegisters.append(self.__parseRegister(register))
-        return parsedRegisters
-
-    def __parseRegister(self, split):
+    @staticmethod
+    def __parse_register(split):
         data = Data(
                 date=split[0],
                 time=split[1],
