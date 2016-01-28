@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from enum import Enum
-from Connection.TCPConnection import TCPConnection
-from Connection.TTYConnection import TTYConnection
 
 
 class Connection:
@@ -25,8 +22,3 @@ class Connection:
 
     def __str__(self):
         raise NotImplementedError("Should have implemented this")
-
-
-class ConnectionType(Enum):
-    TCP = TCPConnection
-    TTY = TTYConnection
